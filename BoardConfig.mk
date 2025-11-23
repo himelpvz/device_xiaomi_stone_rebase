@@ -343,8 +343,8 @@ SHRP_PATH := device/xiaomi/sunstone
 SHRP_MAINTAINER := Himel_pvz
 SHRP_REC_TYPE := SAR
 SHRP_DEVICE_TYPE := A/B
-SHRP_REC := /dev/block/bootdevice/by-name/boot
-SHRP_HAS_RECOVERY_PARTITION := 
+SHRP_REC := /dev/block/bootdevice/by-name/vendor_boot
+SHRP_HAS_RECOVERY_PARTITION := false
 SHRP_AB := true
 SHRP_EDL_MODE := 1
 
