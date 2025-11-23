@@ -11,6 +11,7 @@ DEVICE_PATH := device/xiaomi/stone
 # Build system flags
 # =========================
 
+
 BUILD_BROKEN_DUP_RULES := true
 # Allow duplicate build rules (e.g. in PRODUCT_COPY_FILES) instead of failing with
 # "overriding commands for target".
@@ -105,7 +106,7 @@ TARGET_KERNEL_HEADER_ARCH := arm64
 # TARGET_KERNEL_CLANG_COMPILE   := true
 # Build kernel with Clang toolchain (required by modern Android kernels).
 
-BOARD_BOOTIMG_HEADER_VERSION := 3
+BOARD_BOOT_HEADER_VERSION := 4
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom androidboot.memcg=1 lpm_levels.sleep_disabled=1 msm_rtb.filter=0x237 service_locator.enable=1 androidboot.usbcontroller=4e00000.dwc3 swiotlb=0 loop.max_part=7 cgroup.memory=nokmem,nosocket iptable_raw.raw_before_defrag=1 ip6table_raw.raw_before_defrag=1 firmware_class.path=/vendor/firmware
 BOARD_KERNEL_PAGESIZE := 4096
@@ -338,13 +339,13 @@ TW_INCLUDE_FASTBOOTD := true
 TWRP_INCLUDE_LOGCAT := true
 TARGET_USES_LOGD := true
 
-SHRP_DEVICE_CODE := stone 
-SHRP_PATH := device/xiaomi/stone
+SHRP_DEVICE_CODE := sunstone 
+SHRP_PATH := device/xiaomi/sunstone
 SHRP_MAINTAINER := Himel_pvz
 SHRP_REC_TYPE := SAR
 SHRP_DEVICE_TYPE := A/B
-SHRP_REC := /dev/block/bootdevice/by-name/vendor_boot
-SHRP_HAS_RECOVERY_PARTITION := false
+SHRP_REC := /dev/block/bootdevice/by-name/boot
+SHRP_HAS_RECOVERY_PARTITION := 
 SHRP_AB := true
 SHRP_EDL_MODE := 1
 
@@ -369,4 +370,6 @@ SHRP_FONP_1 := /sys/class/devices/virtual/camera/flashlight/rear_flash
 SHRP_FLASH_MAX_BRIGHTNESS := 1
 
 SHRP_NO_SAR_AUTOMOUNT := true
+
+
 
