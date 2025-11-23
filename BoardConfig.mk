@@ -253,7 +253,7 @@ TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
 ########### RECOVERY VENDOR BOOT ##################
 BOARD_MOVE_RECOVERY_RESOURCES_TO_VENDOR_BOOT := true
 BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT := true
-BOARD_USES_RECOVERY_AS_BOOT := true
+#BOARD_USES_RECOVERY_AS_BOOT := true
 #################################################
 # Place recovery resources and ramdisk inside vendor_boot instead of boot.
 
