@@ -338,8 +338,8 @@ TW_INCLUDE_FASTBOOTD := true
 TWRP_INCLUDE_LOGCAT := true
 TARGET_USES_LOGD := true
 
-SHRP_DEVICE_CODE := sunstone 
-SHRP_PATH := device/xiaomi/sunstone
+SHRP_DEVICE_CODE := stone 
+SHRP_PATH := device/xiaomi/stone
 SHRP_MAINTAINER := Himel_pvz
 SHRP_REC_TYPE := SAR
 SHRP_DEVICE_TYPE := A/B
