@@ -10,8 +10,8 @@ export LC_ALL=C
 # The targets are usually 'eng' (engineering) and 'userdebug'.
 
 # Syntax: add_lunch_combo <product_name>-<build_variant>
-add_lunch_combo twrp_<device-codename>-eng
-add_lunch_combo twrp_<device-codename>-userdebug
+add_lunch_combo twrp_stone-eng
+add_lunch_combo twrp_stone-userdebug
 
 # Or, if using the older OmniROM naming convention:
 # add_lunch_combo omni_<device-codename>-eng
