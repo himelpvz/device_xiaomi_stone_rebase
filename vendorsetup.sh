@@ -11,6 +11,7 @@ export LC_ALL=C
 
 # Syntax: add_lunch_combo <product_name>-<build_variant>
 add_lunch_combo twrp_stone-eng
+add_lunch_combo twrp_stone-user
 add_lunch_combo twrp_stone-userdebug
 
 # Or, if using the older OmniROM naming convention:
