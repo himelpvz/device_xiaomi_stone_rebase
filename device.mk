@@ -25,10 +25,7 @@ PRODUCT_PACKAGES += \
 
 
 
-PRODUCT_SHIPPING_API_LEVEL := 34
-PRODUCT_TARGET_VNDK_VERSION := 34
-TARGET_VNDK_VERSION := 34
-# Essential: Must match the Android version used by stone's vendor (HyperOS/MIUI).
+
 # Needed for VNDK + VINTF compatibility in recovery.
 
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
