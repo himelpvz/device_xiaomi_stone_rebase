@@ -127,7 +127,7 @@ TARGET_KERNEL_SOURCE := kernel/xiaomi/stone
 # TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/Image
 
 BOARD_KERNEL_IMAGE_NAME := Image
-BOARD_PREBUILT_DTBIMAGE := $(DEVICE_PATH)/prebuilt/dtb/dtb.img
+# BOARD_PREBUILT_DTBIMAGE := $(DEVICE_PATH)/prebuilt/dtb/dtb.img
 BOARD_PREBUILT_DTBIMAGE_DIR := $(DEVICE_PATH)/prebuilt/dtbs
 # BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/prebuilt/dtbs/dtbo.img
 # TARGET_NO_KERNEL_OVERRIDE := true
