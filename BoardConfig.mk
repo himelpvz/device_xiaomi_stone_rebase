@@ -55,7 +55,7 @@ TARGET_2ND_CPU_VARIANT_RUNTIME := cortex-a55
 
 
 PRODUCT_PLATFORM := holi
-TARGET_BOARD_PLATFORM := xiaomi_sm6375
+TARGET_BOARD_PLATFORM := holi
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno619
 QCOM_BOARD_PLATFORMS += xiaomi_sm6375
 # Platform / SoC codename (Pixel 8 = holi); TARGET_BOARD_PLATFORM comes from
