@@ -38,7 +38,7 @@ TARGET_BOOTLOADER_BOARD_NAME := $(PRODUCT_PLATFORM)
 TARGET_BOARD_INFO_FILE := $(DEVICE_PATH)/board-info.txt
 TARGET_NO_BOOTLOADER := true
 TARGET_USES_UEFI := true
-= *************** test only
+# = *************** test only
 #TARGET_NO_RECOVERY := true
 
 BOARD_VENDOR := xiaomi
