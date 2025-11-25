@@ -1,11 +1,5 @@
 
 
-# Copyright (C) 2024 The Android Open Source Project
-# Copyright (C) 2024 SebaUbuntu's TWRP device tree generator
-#
-# SPDX-License-Identifier: Apache-2.0
-#
-
 # ============================================
 # Device properties (hardware, kernel, storage)
 # ============================================
@@ -281,7 +275,7 @@ BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
 BOARD_MKBOOTIMG_ARGS += --ramdisk_offset $(BOARD_RAMDISK_OFFSET)
 BOARD_MKBOOTIMG_ARGS += --tags_offset $(BOARD_KERNEL_TAGS_OFFSET)
 BOARD_KERNEL_IMAGE_NAME := Image
-#BOARD_INCLUDE_DTB_IN_BOOTIMG := true
+#
 
 # TARGET_KERNEL_CONFIG := stone_defconfig
 # TARGET_KERNEL_SOURCE := kernel/xiaomi/stone
@@ -293,7 +287,7 @@ BOARD_KERNEL_IMAGE_NAME := Image
 BOARD_PREBUILT_DTBIMAGE_DIR := $(DEVICE_PATH)/prebuilt/dtbs
 BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/prebuilt/dtbs/dtbo.img
 # TARGET_NO_KERNEL_OVERRIDE := true
-#BOARD_INCLUDE_DTB_IN_BOOTIMG := true
+#
 # BOARD_DTB_OFFSET         := 0x01f00000
 
 # Recovery image layout
@@ -361,7 +355,7 @@ TARGET_USES_MKE2FS := true
 LC_ALL := C
 
 # BOARD_EXCLUDE_KERNEL_FROM_RECOVERY_IMAGE := true
-# #BOARD_INCLUDE_DTB_IN_BOOTIMG := true
+# 
 # ENABLE_CPUSETS := true
 
 # Logging
