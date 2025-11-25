@@ -26,8 +26,7 @@ TARGET_2ND_CPU_VARIANT_RUNTIME := cortex-a55
 PRODUCT_PLATFORM := holi
 TARGET_BOARD_PLATFORM := holi
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno619
-QCOM_BOARD_PLATFORMS += xiaomi_sm6375
-XIAOMI_BOARD_PLATFORMS += holi
+QCOM_BOARD_PLATFORMS += holi
 
 TARGET_BOOTLOADER_BOARD_NAME := $(PRODUCT_PLATFORM)
 TARGET_BOARD_INFO_FILE := $(DEVICE_PATH)/board-info.txt
@@ -44,23 +43,47 @@ TARGET_KERNEL_HEADER_ARCH := arm64
 
 BOARD_BOOT_HEADER_VERSION := 3
 BOARD_KERNEL_BASE := 0x00000000
-BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom androidboot.memcg=1 lpm_levels.sleep_disabled=1 msm_rtb.filter=0x237 service_locator.enable=1 androidboot.usbcontroller=4e00000.dwc3 swiotlb=0 loop.max_part=7 cgroup.memory=nokmem,nosocket iptable_raw.raw_before_defrag=1 ip6table_raw.raw_before_defrag=1 firmware_class.path=/vendor/firmware
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_RAMDISK_OFFSET := 0x01000000
 BOARD_KERNEL_TAGS_OFFSET := 0x00000100
 BOARD_DTB_OFFSET := 0x01f00000
 
+# Prebuilt Kernel
+BOARD_KERNEL_IMAGE_NAME := Image
+TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
+TARGET_NO_KERNEL_OVERRIDE := true
+
+# DTB Configuration
+BOARD_INCLUDE_DTB_IN_BOOTIMG := true
+BOARD_PREBUILT_DTBIMAGE_DIR := $(DEVICE_PATH)/prebuilt
+
+# DTBO
+BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/prebuilt/dtbo.img
+
+# Boot.img Arguments
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
 BOARD_MKBOOTIMG_ARGS += --ramdisk_offset $(BOARD_RAMDISK_OFFSET)
 BOARD_MKBOOTIMG_ARGS += --tags_offset $(BOARD_KERNEL_TAGS_OFFSET)
 BOARD_MKBOOTIMG_ARGS += --dtb_offset $(BOARD_DTB_OFFSET)
+BOARD_MKBOOTIMG_ARGS += --pagesize $(BOARD_KERNEL_PAGESIZE)
 
-BOARD_KERNEL_IMAGE_NAME := Image
-BOARD_PREBUILT_DTBIMAGE_DIR := $(DEVICE_PATH)/prebuilt
-TARGET_NO_KERNEL_OVERRIDE := true
+# Boot Cmdline
+BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom
+BOARD_KERNEL_CMDLINE += androidboot.memcg=1
+BOARD_KERNEL_CMDLINE += lpm_levels.sleep_disabled=1
+BOARD_KERNEL_CMDLINE += msm_rtb.filter=0x237
+BOARD_KERNEL_CMDLINE += service_locator.enable=1
+BOARD_KERNEL_CMDLINE += androidboot.usbcontroller=4e00000.dwc3
+BOARD_KERNEL_CMDLINE += swiotlb=0
+BOARD_KERNEL_CMDLINE += loop.max_part=7
+BOARD_KERNEL_CMDLINE += cgroup.memory=nokmem,nosocket
+BOARD_KERNEL_CMDLINE += iptable_raw.raw_before_defrag=1
+BOARD_KERNEL_CMDLINE += ip6table_raw.raw_before_defrag=1
+BOARD_KERNEL_CMDLINE += firmware_class.path=/vendor/firmware
 
 # Vendor Boot Cmdline
-VENDOR_CMDLINE := "androidboot.hardware=qcom androidboot.memcg=1 lpm_levels.sleep_disabled=1 msm_rtb.filter=0x237 service_locator.enable=1 androidboot.usbcontroller=4e00000.dwc3 swiotlb=0 loop.max_part=7 cgroup.memory=nokmem,nosocket iptable_raw.raw_before_defrag=1 ip6table_raw.raw_before_defrag=1 firmware_class.path=/vendor/firmware"
+BOARD_VENDOR_CMDLINE := androidboot.init_fatal_reboot_target=recovery
+BOARD_VENDOR_CMDLINE += androidboot.selinux=permissive
 
 # Boot Config
 BOARD_BOOTCONFIG += androidboot.usbcontroller=4e00000.dwc3
@@ -69,32 +92,40 @@ BOARD_BOOTCONFIG += androidboot.load_modules_parallel=true
 # ============================================
 # Recovery - Vendor Boot (CRITICAL SECTION)
 # ============================================
-BOARD_VENDOR_RAMDISK_RECOVERY := true
 BOARD_MOVE_RECOVERY_RESOURCES_TO_VENDOR_BOOT := true
 BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT := true
-BOARD_USES_RECOVERY_AS_BOOT := true
+
+# Vendor ramdisk fragments
+BOARD_VENDOR_RAMDISK_FRAGMENTS := dlkm
+BOARD_VENDOR_RAMDISK_FRAGMENT.dlkm.KERNEL_MODULE_DIRS := top
 
 # ============================================
 # A/B & Dynamic Partitions
 # ============================================
 AB_OTA_UPDATER := true
 AB_OTA_PARTITIONS += \
-    vendor \
-    system_ext \
-    system \
+    boot \
+    dtbo \
     odm \
     product \
+    system \
+    system_ext \
+    vbmeta \
+    vbmeta_system \
+    vendor \
     vendor_boot
 
 BOARD_USES_DYNAMIC_PARTITIONS := true
 BOARD_SUPER_PARTITION_SIZE := 8531214336
-BOARD_SUPER_PARTITION_GROUPS := XIAOMI_dynamic_partitions
-BOARD_XIAOMI_DYNAMIC_PARTITIONS_PARTITION_LIST := system system_ext product vendor vendor_dlkm
-BOARD_XIAOMI_DYNAMIC_PARTITIONS_SIZE := 8527020032
+BOARD_SUPER_PARTITION_GROUPS := qti_dynamic_partitions
+BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST := system system_ext product vendor vendor_dlkm odm
+BOARD_QTI_DYNAMIC_PARTITIONS_SIZE := 8527020032
 
 # ============================================
 # Partitions & File Systems
 # ============================================
+BOARD_BOOTIMAGE_PARTITION_SIZE := 134217728
+BOARD_DTBOIMG_PARTITION_SIZE := 25165824
 BOARD_VENDOR_BOOTIMAGE_PARTITION_SIZE := 100663296
 
 TARGET_USERIMAGES_USE_EXT4 := true
@@ -117,8 +148,6 @@ TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery.fstab
 TARGET_RECOVERY_WIPE := $(DEVICE_PATH)/recovery.wipe
 
 TARGET_USE_CUSTOM_LUN_FILE_PATH := /config/usb_gadget/g1/functions/mass_storage.0/lun.%d/file
-TARGET_SCREEN_WIDTH := 1080
-TARGET_SCREEN_HEIGHT := 2000
 
 TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
 
@@ -130,7 +159,7 @@ BOARD_USES_METADATA_PARTITION := true
 
 PLATFORM_VERSION := 99.87.36
 PLATFORM_VERSION_LAST_STABLE := $(PLATFORM_VERSION)
-PLATFORM_SECURITY_PATCH := 2099-12-31
+PLATFORM_SECURITY_PATCH := 2127-12-31
 VENDOR_SECURITY_PATCH := $(PLATFORM_SECURITY_PATCH)
 BOOT_SECURITY_PATCH := $(PLATFORM_SECURITY_PATCH)
 
@@ -144,10 +173,8 @@ ALLOW_MISSING_DEPENDENCIES := true
 
 BOARD_AVB_ENABLE := true
 BOARD_RAMDISK_USE_LZ4 := true
-SELINUX_IGNORE_NEVERALLOWS := true
 
 TW_EXCLUDE_APEX := true
-ENABLE_SCHEDBOOST := true
 TARGET_USES_MKE2FS := true
 TARGET_USES_LOGD := true
 
@@ -169,7 +196,6 @@ TW_BRIGHTNESS_PATH := "/sys/class/backlight/panel0-backlight/brightness"
 TW_MAX_BRIGHTNESS := 2047
 TW_DEFAULT_BRIGHTNESS := 200
 TW_FRAMERATE := 120
-TW_ROUND_SCREEN := true
 TW_CUSTOM_CLOCK_POS := 60
 
 # Features
@@ -181,7 +207,6 @@ TW_INCLUDE_NTFS_3G := true
 TW_USE_TOOLBOX := true
 TW_INPUT_BLACKLIST := "hbtp_vm"
 TW_NO_SCREEN_BLANK := true
-TW_HAS_EDL_MODE := true
 TW_INCLUDE_REPACKTOOLS := true
 TW_INCLUDE_RESETPROP := true
 TW_INCLUDE_LIBRESETPROP := true
@@ -192,6 +217,7 @@ TW_INCLUDE_FASTBOOTD := true
 
 # Modules
 TW_LOAD_VENDOR_MODULES := "adsp_loader_dlkm.ko"
+TW_LOAD_VENDOR_BOOT_MODULES := true
 
 # Debug
 TWRP_INCLUDE_LOGCAT := true
