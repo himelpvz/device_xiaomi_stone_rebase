@@ -84,7 +84,7 @@ TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_HEADER_ARCH := arm64
 # TARGET_KERNEL_CLANG_COMPILE   := true
 
-BOARD_BOOT_HEADER_VERSION := 4
+BOARD_BOOT_HEADER_VERSION := 3
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom androidboot.memcg=1 lpm_levels.sleep_disabled=1 msm_rtb.filter=0x237 service_locator.enable=1 androidboot.usbcontroller=4e00000.dwc3 swiotlb=0 loop.max_part=7 cgroup.memory=nokmem,nosocket iptable_raw.raw_before_defrag=1 ip6table_raw.raw_before_defrag=1 firmware_class.path=/vendor/firmware
 BOARD_KERNEL_PAGESIZE := 4096
@@ -103,6 +103,7 @@ BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 # TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/Image
 
 BOARD_KERNEL_IMAGE_NAME := Image
+TARGET_PREBUILT_DTB := $(DEVICE_PATH)/prebuilt/$(PRODUCT_RELEASE_NAME)/dtb/dtb
 BOARD_PREBUILT_DTBIMAGE_DIR := $(DEVICE_PATH)/prebuilt/dtbs
 BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/prebuilt/dtbs/dtbo.img
 # TARGET_NO_KERNEL_OVERRIDE := true
@@ -135,9 +136,9 @@ TARGET_SCREEN_HEIGHT := 2000
 TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
 
 ########### RECOVERY VENDOR BOOT ##################
-BOARD_MOVE_RECOVERY_RESOURCES_TO_VENDOR_BOOT := true
-BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT := true
-BOARD_MOVE_GSI_AVB_KEYS_TO_VENDOR_BOOT := true
+#BOARD_MOVE_RECOVERY_RESOURCES_TO_VENDOR_BOOT := true
+#BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT := true
+#BOARD_MOVE_GSI_AVB_KEYS_TO_VENDOR_BOOT := true
 #BOARD_USES_RECOVERY_AS_BOOT := true
 #################################################
 # BOARD_USES_GENERIC_KERNEL_IMAGE := true
