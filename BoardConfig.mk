@@ -35,7 +35,6 @@ TARGET_BOARD_INFO_FILE := $(DEVICE_PATH)/board-info.txt
 TARGET_NO_BOOTLOADER := true
 TARGET_USES_UEFI := true
 # = *************** test only
-TARGET_NO_RECOVERY := true
 
 BOARD_VENDOR := xiaomi
 
@@ -99,7 +98,6 @@ BOARD_KERNEL_IMAGE_NAME := Image
 
 BOARD_KERNEL_IMAGE_NAME := Image
 BOARD_PREBUILT_DTBIMAGE_DIR := $(DEVICE_PATH)/prebuilt
-#BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/prebuilt/dtbs/dtbo.img
 TARGET_NO_KERNEL_OVERRIDE := true
 
 BOARD_DTB_OFFSET         := 0x01f00000
