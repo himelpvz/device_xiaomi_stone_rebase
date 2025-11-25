@@ -93,7 +93,7 @@ BOARD_BOOTCONFIG += androidboot.load_modules_parallel=true
 # Recovery - Vendor Boot (CRITICAL SECTION)
 # ============================================
 BOARD_MOVE_RECOVERY_RESOURCES_TO_VENDOR_BOOT := true
-BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT := true
+#BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT := true
 
 # Vendor ramdisk fragments
 #BOARD_VENDOR_RAMDISK_FRAGMENTS := dlkm
