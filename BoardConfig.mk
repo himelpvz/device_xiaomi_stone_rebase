@@ -52,7 +52,7 @@ BOARD_DTB_OFFSET := 0x01f00000
 
 # Prebuilt Kernel
 BOARD_KERNEL_IMAGE_NAME := Image
-TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
+#TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
 TARGET_NO_KERNEL_OVERRIDE := true
 
 # DTB Configuration
