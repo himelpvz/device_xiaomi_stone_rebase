@@ -107,7 +107,7 @@ export FOX_USE_SPECIFIC_MAGISK_ZIP="$fox_dir/device/xiaomi/stone/recovery/root/s
 
 export FOX_VERSION=""
 # Must be set to an empty value for all FOX source trees
-source $fox_dir/device/google/shiba/ofox_vars.sh
+source $fox_dir/device/xiaomi/stone/ofox_vars.sh
 
 s=""
 for f in $(env | grep -E '^(OF_|FOX_)') ; do 
