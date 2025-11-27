@@ -57,31 +57,35 @@ BOARD_KERNEL_IMAGE_NAME := Image
 TARGET_NO_KERNEL_OVERRIDE := true
 
 # DTB Configuration
-TARGET_PREBUILT_DTB := $(DEVICE_PATH)/prebuilt/dtb.img
+TARGET_PREBUILT_DTB := $(DEVICE_PATH)/prebuilt/dtb
 BOARD_MKBOOTIMG_ARGS += --dtb $(TARGET_PREBUILT_DTB)
-# DTBO
-BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/prebuilt/dtbs/dtbo.img
+
 
 # Boot.img Arguments
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
+
 BOARD_MKBOOTIMG_ARGS += --ramdisk_offset $(BOARD_RAMDISK_OFFSET)
+
 BOARD_MKBOOTIMG_ARGS += --tags_offset $(BOARD_KERNEL_TAGS_OFFSET)
+
 BOARD_MKBOOTIMG_ARGS += --dtb_offset $(BOARD_DTB_OFFSET)
+
 BOARD_MKBOOTIMG_ARGS += --pagesize $(BOARD_KERNEL_PAGESIZE)
 
-BOARD_KERNEL_CMDLINE := \
-    androidboot.hardware=qcom \
-    androidboot.memcg=1 \
-    lpm_levels.sleep_disabled=1 \
-    msm_rtb.filter=0x237 \
-    service_locator.enable=1 \
-    androidboot.usbcontroller=4e00000.dwc3 \
-    swiotlb=0 \
-    loop.max_part=7 \
-    cgroup.memory=nokmem,nosocket \
-    iptable_raw.raw_before_defrag=1 \
-    ip6table_raw.raw_before_defrag=1 \
-    firmware_class.path=/vendor/firmware
+VENDOR_CMDLINE := "androidboot.hardware=qcom \
+                        androidboot.memcg=1 \
+		                androidboot.selinux=permissive \
+                        androidboot.usbcontroller=4e00000.dwc3 \
+                        cgroup.memory=nokmem,nosocket \
+                        loop.max_part=7 \
+                        msm_rtb.filter=0x237 \
+                        service_locator.enable=1 \
+                        swiotlb=0 \
+                        pcie_ports=compat \
+                        iptable_raw.raw_before_defrag=1 \
+                        ip6table_raw.raw_before_defrag=1 \
+                        androidboot.init_fatal_reboot_target=recovery"
+
 
 
 # Vendor Boot Cmdline
@@ -100,19 +104,19 @@ BOARD_MOVE_RECOVERY_RESOURCES_TO_VENDOR_BOOT := true
 # ============================================
 AB_OTA_UPDATER := true
 AB_OTA_PARTITIONS += \
-    boot \
-    dtbo \
-    odm \
-    product \
-    system \
-    system_ext \
-    vbmeta \
-    vbmeta_system \
-    vendor \
-    vendor_boot
+                   boot \
+                   dtbo \
+                   odm \
+                   product \
+                   system \
+                   system_ext \
+                   vbmeta \
+                   vbmeta_system \
+                   vendor \
+                   vendor_boot
 
 BOARD_USES_DYNAMIC_PARTITIONS := true
-BOARD_SUPER_PARTITION_SIZE := 8531214336
+BOARD_SUPER_PARTITION_SIZE :=  8531214336
 BOARD_SUPER_PARTITION_GROUPS := qti_dynamic_partitions
 BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST := system system_ext product vendor vendor_dlkm odm
 BOARD_QTI_DYNAMIC_PARTITIONS_SIZE := 8527020032
@@ -132,18 +136,6 @@ TARGET_COPY_OUT_PRODUCT := product
 TARGET_COPY_OUT_SYSTEM_EXT := system_ext
 TARGET_COPY_OUT_VENDOR := vendor
 
-# HIDL
-DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += \
-    hardware/qcom-caf/common/vendor_framework_compatibility_matrix.xml \
-    $(DEVICE_PATH)/vintf/device_framework_matrix.xml \
-    $(DEVICE_PATH)/vintf/vendor_framework_compatibility_matrix.xml
-    
-
-DEVICE_MANIFEST_FILE += \
-    $(DEVICE_PATH)/vintf/manifest.xml
-
-DEVICE_MATRIX_FILE := \
-    hardware/qcom-caf/common/compatibility_matrix.xml    
 
 
 BOARD_HAS_LARGE_FILESYSTEM := true
@@ -280,7 +272,7 @@ SHRP_DEVICE_TYPE := A/B
 SHRP_STATUSBAR_RIGHT_PADDING := 40
 SHRP_STATUSBAR_LEFT_PADDING := 40
 SHRP_EXPRESS := true
-SHRP_OFFICIAL := false
+SHRP_OFFICIAL := true
 SHRP_DARK := true
 SHRP_ALT_REBOOT := true
 
