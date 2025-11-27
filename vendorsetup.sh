@@ -2,13 +2,15 @@
 
 fox_dir=$(pwd)
 
-inject_self_repacker(){
+inject_self_repacker() {
     file="$fox_dir/bootable/recovery/twrpRepacker.cpp"
+
     # Check if the file exists
     if [ ! -f "$file" ]; then
         echo "File not found: $file"
         exit 1
     fi
+
     if grep -q "bool twrpRepacker::Flash_Current_Twrp()" "$file"; then
         echo "Function twrpRepacker::Flash_Current_Twrp() found in file"
         if ! grep -q "if (TWFunc::Path_Exists(\"/system/bin/reflash_twrp.sh\"))" "$file"; then
@@ -47,36 +49,7 @@ inject_self_repacker(){
     fi
 }
 
-# cp ./system/core/libvndksupport/include/vndksupport/linker.h /home/leegar/fox_14.1/system/libhidl/transport/include/vndksupport/
-
-# nano hardware/interfaces/usb/aidl/Android.bp
-# recovery_available = true
-# // frozen = true
-
-# nano hardware/interfaces/stats/aidl/Android.bp
-# recovery_available = true
-# // frozen = true
-
-# nano hardware/interfaces/usb/gadget/aidl/Android.bp
-# recovery_available = true
-# // frozen = true
-
-# nano hardware/interfaces/thermal/aidl/Android.bp
-# recovery_available = true
-# // frozen = true
-
-# transport/ServiceManagement.cpp
-#             // else {
-#             //     handle = android_load_sphal_library(fullPath.c_str(), dlMode);
-#             // }
-# // void preloadPassthroughService(const std::string &descriptor) {
-# //     PassthroughServiceManager::openLibs(descriptor,
-# //         [&](void* /* handle */, const std::string& /* lib */, const std::string& /* sym */) {
-# //             // do nothing
-# //             return true; // open all libs
-# //         });
-# // }
-
+# Clear existing OF_/FOX_ variables
 s=""
 for f in $(env | grep -E '^(OF_|FOX_)') ; do 
     if [ -z "$s" ]; then
@@ -84,30 +57,35 @@ for f in $(env | grep -E '^(OF_|FOX_)') ; do
     else
         s+=", $f"
     fi
-    unset "$(echo $f | cut -d '=' -f 1)"
+    unset "$(echo "$f" | cut -d '=' -f 1)"
 done
 
 echo -e "\n\nUnset variables:"
-echo $s | grep -E '(OF_|FOX_)'
+echo "$s" | grep -E '(OF_|FOX_)'
 echo -e ""
 env | grep -E '^(OF_|FOX_)'
 
 inject_self_repacker 
 
-sed -i 's/ || defined(RECOVERY_ABGR)//g' $fox_dir/bootable/recovery/minuitwrp/graphics.cpp
-sed -i 's/ || defined(RECOVERY_ABGR)//g' $fox_dir/bootable/recovery/minuitwrp/resources.cpp
+# Disable ABGR checks
+sed -i 's/ || defined(RECOVERY_ABGR)//g' "$fox_dir/bootable/recovery/minuitwrp/graphics.cpp"
+sed -i 's/ || defined(RECOVERY_ABGR)//g' "$fox_dir/bootable/recovery/minuitwrp/resources.cpp"
 
-export ALLOW_MISSING_DEPENDENCIES=false
-# Purpose: Allows building even if some dependencies are missing. Used to simplify builds with incomplete device trees.
-# Necessity: Useful for testing, but for production it's better to resolve missing dependencies.
-# Move to .mk: Not required — this is a global build environment setting.
-# Note: Leave in vendorsetup.sh. Remove only if all dependencies are correctly configured.
+# Allow missing deps during bringup (optional)
+export ALLOW_MISSING_DEPENDENCIES=true
 
+# Magisk ZIP path – ensure this file actually exists
 export FOX_USE_SPECIFIC_MAGISK_ZIP="$fox_dir/device/xiaomi/stone/recovery/root/system/bin/Magisk-29.zip"
 
+# Must be empty for all FOX source trees
 export FOX_VERSION=""
-# Must be set to an empty value for all FOX source trees
-source $fox_dir/device/xiaomi/stone/ofox_vars.sh
+
+# Load device-specific OrangeFox vars for stone
+if [ -f "$fox_dir/device/xiaomi/stone/ofox_vars.sh" ]; then
+    source "$fox_dir/device/xiaomi/stone/ofox_vars.sh"
+else
+    echo "Warning: device/xiaomi/stone/ofox_vars.sh not found; skipping device-specific FOX vars."
+fi
 
 s=""
 for f in $(env | grep -E '^(OF_|FOX_)') ; do 
@@ -119,5 +97,5 @@ for f in $(env | grep -E '^(OF_|FOX_)') ; do
 done
 
 echo -e "New set variables:"
-echo $s | grep -E '(OF_|FOX_)'
+echo "$s" | grep -E '(OF_|FOX_)'
 echo -e "\n"
