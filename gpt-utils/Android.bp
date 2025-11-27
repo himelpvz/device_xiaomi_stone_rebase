@@ -15,9 +15,11 @@
 //
 
 
+
 cc_library {
-    name: "libgptutils.sunstone",
-    vendor: true,
+    name: "libgptutils.stone",
+    vendor_available: true,
+    vendor_ramdisk_available: true,
     recovery_available: true,
     shared_libs: [
         "libcutils",
