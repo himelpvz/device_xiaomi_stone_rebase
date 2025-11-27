@@ -40,6 +40,10 @@ AB_OTA_POSTINSTALL_CONFIG += \
     POSTINSTALL_OPTIONAL_system=true
     #added later I don't know
     
+    
+PRODUCT_PACKAGES += \
+    libinit_stone
+    
 
 
 PRODUCT_PACKAGES += \

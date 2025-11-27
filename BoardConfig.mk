@@ -152,10 +152,8 @@ TARGET_RECOVERY_WIPE := $(DEVICE_PATH)/recovery.wipe
 TARGET_USE_CUSTOM_LUN_FILE_PATH := /config/usb_gadget/g1/functions/mass_storage.0/lun.%d/file
 
 TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
-
-TARGET_INIT_VENDOR_LIB := //$(DEVICE_PATH):libinit_stone
-TARGET_RECOVERY_DEVICE_MODULES := libinit_stone
-
+TARGET_INIT_VENDOR_LIB := //device/xiaomi/stone/init:libinit_stone
+TARGET_RECOVERY_DEVICE_MODULES += libinit_stone
 
 BOARD_ODMIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_PRODUCTIMAGE_FILE_SYSTEM_TYPE := ext4

@@ -1,25 +1,15 @@
-//
-// Copyright (C) 2021 The LineageOS Project
-//
-// SPDX-License-Identifier: Apache-2.0
-//
-
 cc_library_static {
     name: "libinit_stone",
-    srcs: [
-        "libinit_dalvik_heap.cpp",
-        "libinit_variant.cpp",
-        "libinit_utils.cpp",
+    header_libs: [
+        "libbase_headers",
     ],
-    whole_static_libs: ["libbase"],
-    export_include_dirs: ["include"],
-    recovery_available: true,
-}
-
-cc_library_static {
-    name: "init_stone",
+    cflags: [
+        "-Wall",
+    ],
+    static_libs: [
+        "libbase",
+    ],
     srcs: ["init_stone.cpp"],
-    whole_static_libs: ["libinit_stone"],
-    include_dirs: ["system/core/init"],
     recovery_available: true,
+    vendor_available: true,
 }
