@@ -40,10 +40,7 @@ AB_OTA_POSTINSTALL_CONFIG += \
     POSTINSTALL_OPTIONAL_system=true
     #added later I don't know
     
-    
-PRODUCT_PACKAGES += vndservicemanager
-PRODUCT_PACKAGES += vndservice
-PRODUCT_PACKAGES += libhidltransport.vendor
+
 
 PRODUCT_PACKAGES += \
     otapreopt_script
