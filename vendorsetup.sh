@@ -103,7 +103,7 @@ export ALLOW_MISSING_DEPENDENCIES=false
 # Move to .mk: Not required — this is a global build environment setting.
 # Note: Leave in vendorsetup.sh. Remove only if all dependencies are correctly configured.
 
-export FOX_USE_SPECIFIC_MAGISK_ZIP="$fox_dir/device/google/shiba/recovery/root/system/bin/Magisk-29.zip"
+export FOX_USE_SPECIFIC_MAGISK_ZIP="$fox_dir/device/xiaomi/stone/recovery/root/system/bin/Magisk-29.zip"
 
 export FOX_VERSION=""
 # Must be set to an empty value for all FOX source trees
