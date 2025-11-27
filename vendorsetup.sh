@@ -97,7 +97,7 @@ inject_self_repacker
 sed -i 's/ || defined(RECOVERY_ABGR)//g' $fox_dir/bootable/recovery/minuitwrp/graphics.cpp
 sed -i 's/ || defined(RECOVERY_ABGR)//g' $fox_dir/bootable/recovery/minuitwrp/resources.cpp
 
-export ALLOW_MISSING_DEPENDENCIES=true
+export ALLOW_MISSING_DEPENDENCIES=false
 # Purpose: Allows building even if some dependencies are missing. Used to simplify builds with incomplete device trees.
 # Necessity: Useful for testing, but for production it's better to resolve missing dependencies.
 # Move to .mk: Not required — this is a global build environment setting.
