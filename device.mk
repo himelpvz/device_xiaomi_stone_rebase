@@ -1,129 +1,104 @@
 #
-# Copyright (C) 2024 The Android Open Source Project
-# Copyright (C) 2024 SebaUbuntu's TWRP device tree generator
+# Copyright (C) 2020 The TwrpBuilder Open-Source Project
 #
-# SPDX-License-Identifier: Apache-2.0
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 #
 
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += build.variant.self=$(BUILD_VATIANT_SELF)
+# Configure base.mk
+$(call inherit-product, $(SRC_TARGET_DIR)/product/base.mk)
 
-DEVICE_PATH := device/xiaomi/stone
+# Configure core_64_bit_only.mk
+$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit_only.mk)
 
-PLATFORM_SECURITY_PATCH := 2099-12-31
-VENDOR_SECURITY_PATCH := $(PLATFORM_SECURITY_PATCH)
-BOOT_SECURITY_PATCH := $(PLATFORM_SECURITY_PATCH)
+# Configure gsi_keys.mk
+$(call inherit-product, $(SRC_TARGET_DIR)/product/gsi_keys.mk)
 
-PRODUCT_SOONG_NAMESPACES += \
-    $(DEVICE_PATH)
+# Configure Virtual A/B
+$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
 
-# decryption
+# Configure SDCard replacement functionality
+$(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
+
+# Configure twrp
+$(call inherit-product, vendor/twrp/config/common.mk)
+
+# A/B
+AB_OTA_POSTINSTALL_CONFIG += \
+    RUN_POSTINSTALL_system=true \
+    POSTINSTALL_PATH_system=system/bin/otapreopt_script \
+    FILESYSTEM_TYPE_system=ext4 \
+    POSTINSTALL_OPTIONAL_system=true
 
 PRODUCT_PACKAGES += \
-    qcom_decrypt \
-    qcom_decrypt_fbe
-    
-# Recovery init scripts
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/recovery/root/init.recovery.usb.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.usb.rc \
-    $(LOCAL_PATH)/recovery/root/init.recovery.qcom.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.qcom.rc
+    otapreopt_script
 
-
-
-# Needed for VNDK + VINTF compatibility in recovery.
-
-PRODUCT_USE_DYNAMIC_PARTITIONS := true
-# Essential: stone (sunstone/moonstone) uses dynamic partitions and A/B system.
-
-# -------- First stage init dependencies -------- #
-PRODUCT_PACKAGES += linker.vendor_ramdisk
-PRODUCT_PACKAGES += linker_hwasan64.vendor_ramdisk
-PRODUCT_PACKAGES += resize2fs.vendor_ramdisk
-PRODUCT_PACKAGES += resize.f2fs.vendor_ramdisk
-PRODUCT_PACKAGES += dump.f2fs.vendor_ramdisk
-PRODUCT_PACKAGES += defrag.f2fs.vendor_ramdisk
-PRODUCT_PACKAGES += fsck.vendor_ramdisk
-PRODUCT_PACKAGES += tune2fs.vendor_ramdisk
-PRODUCT_PACKAGES += fstab.holi.vendor_ramdisk
-PRODUCT_PACKAGES += fstab.holi-fips.vendor_ramdisk
-PRODUCT_PACKAGES += e2fsck.vendor_ramdisk
-# Essential: stone uses Holi platform (Snapdragon 695/4Gen1). Keep holi fstab + fs tools.
-
+# Bootctrl
 PRODUCT_PACKAGES += \
     bootctrl.stone.recovery \
     android.hardware.boot@1.1-impl-qti.recovery
-    
-
-PRODUCT_PACKAGES += \
-    update_engine \
-    update_engine_sideload \
-    update_verifier
-# Essential: Needed for OTA sideload + A/B flashing in TWRP.
 
 PRODUCT_PACKAGES_DEBUG += \
     bootctl
 
-# Essential: Needed for switching A/B slots on Qualcomm devices.
+# SHIPPING API
+PRODUCT_SHIPPING_API_LEVEL := 31
 
+# VNDK API
+PRODUCT_TARGET_VNDK_VERSION := 31
+
+# Soong namespaces
+PRODUCT_SOONG_NAMESPACES += \
+    $(DEVICE_PATH)
+
+PRODUCT_USE_DYNAMIC_PARTITIONS := true
+
+# Kernel
 TWRP_REQUIRED_MODULES += \
 	miui_prebuilt
-	
 
-PRODUCT_PACKAGES += fastbootd
-# Essential: stone supports fastbootd for flashing dynamic partitions from recovery.
+# Twrp Decryption
+PRODUCT_PACKAGES += \
+    qcom_decrypt \
+    qcom_decrypt_fbe
 
-PRODUCT_PACKAGES += libsysutils
+# Fastbootd
+PRODUCT_PACKAGES += \
+    android.hardware.fastboot@1.0-impl-mock \
+    fastbootd
 
-RECOVERY_LIBRARY_SOURCE_FILES += \
-    $(TARGET_OUT_SHARED_LIBRARIES)/libion.so \
-    $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/libdisplayconfig.qti.so \
-    $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/vendor.display.config@1.0.so \
-    $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/vendor.display.config@2.0.so
+# Update engine
+PRODUCT_PACKAGES += \
+    update_engine \
+    update_engine_sideload \
+    update_verifier
 
+PRODUCT_PACKAGES_DEBUG += \
+    update_engine_client
+
+# Soong Namespaces : Qcom commonsys Display
+PRODUCT_SOONG_NAMESPACES += \
+    vendor/qcom/opensource/commonsys-intf/display
+
+# Misc.
 TARGET_RECOVERY_DEVICE_MODULES += \
     libdisplayconfig.qti \
     libion \
     vendor.display.config@1.0 \
     vendor.display.config@2.0 \
-    libdisplayconfig.qti
-# Essential: stone uses QTI display HAL; required for proper framebuffer init in recovery.
+    libdisplayconfig.qti 
 
 RECOVERY_LIBRARY_SOURCE_FILES += \
     $(TARGET_OUT_SHARED_LIBRARIES)/libion.so \
     $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/libdisplayconfig.qti.so \
     $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/vendor.display.config@1.0.so \
-    $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/vendor.display.config@2.0.so
-
-BOARD_USES_METADATA_PARTITION := true
-# Essential: metadata partition is required for FBE and dynamic partition metadata.
-
-PRODUCT_PACKAGES += libtrusty
-# Needed for Qualcomm Trusty TEE (crypto, keystore, FBE).
-
-PRODUCT_PACKAGES += vndservicemanager
-PRODUCT_PACKAGES += vndservice
-PRODUCT_PACKAGES += libhidltransport.vendor
-# Essential: stone vendor still uses HIDL/QTI services.
-
-DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/system/etc/vinit/manifest.xml
-PRODUCT_ENFORCE_VINTF_MANIFEST := true
-# Essential: VINTF check must match stone vendor manifest.
-
-PRODUCT_PACKAGES += bootctl
-
-PRODUCT_SOONG_NAMESPACES += \
-    vendor/qcom/opensource/commonsys-intf/display
-    
-# Needed for A/B slot management from recovery.
-
-PRODUCT_PACKAGES += logcat
-PRODUCT_PACKAGES += logd
-PRODUCT_PACKAGES += auditctl
-PRODUCT_PACKAGES += libcap
-# Useful/required for debugging and SELinux tools in recovery.
-
-ENABLE_VIRTUAL_AB := true
-# Essential: stone uses virtual A/B OTA.
-
-# --- TWRP Features ---
-TW_SUPPORT_INPUT_AIDL_HAPTICS := true
-# Provides haptic support via AIDL for Qualcomm devices.
+    $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/vendor.display.config@2.0.so    

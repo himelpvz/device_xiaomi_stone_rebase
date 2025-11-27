@@ -47,8 +47,7 @@ BOARD_KERNEL_PAGESIZE := 4096
 BOARD_RAMDISK_OFFSET := 0x01000000
 BOARD_KERNEL_TAGS_OFFSET := 0x00000100
 BOARD_DTB_OFFSET := 0x01f00000
-#RAMDISK_SIZE := 22400240
-#BOARD_MKBOOTIMG_ARGS += --vendor_ramdisk_size $(RAMDISK_SIZE)
+
 
 # Prebuilt Kernel
 BOARD_KERNEL_IMAGE_NAME := Image
@@ -83,7 +82,7 @@ BOARD_KERNEL_CMDLINE += ip6table_raw.raw_before_defrag=1
 BOARD_KERNEL_CMDLINE += firmware_class.path=/vendor/firmware
 
 # Vendor Boot Cmdline
-BOARD_VENDOR_CMDLINE := androidboot.init_fatal_reboot_target=recovery
+BOARD_VENDOR_CMDLINE := androidboot.hardware=qcom androidboot.memcg=1 lpm_levels.sleep_disabled=1 msm_rtb.filter=0x237 service_locator.enable=1 androidboot.usbcontroller=4e00000.dwc3 swiotlb=0 loop.max_part=7 cgroup.memory=nokmem,nosocket iptable_raw.raw_before_defrag=1 ip6table_raw.raw_before_defrag=1 firmware_class.path=/vendor/firmware
 BOARD_VENDOR_CMDLINE += androidboot.selinux=permissive
 
 # Boot Config
@@ -94,11 +93,6 @@ BOARD_BOOTCONFIG += androidboot.load_modules_parallel=true
 # Recovery - Vendor Boot (CRITICAL SECTION)
 # ============================================
 BOARD_MOVE_RECOVERY_RESOURCES_TO_VENDOR_BOOT := true
-#BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT := true
-
-# Vendor ramdisk fragments
-#BOARD_VENDOR_RAMDISK_FRAGMENTS := dlkm
-#BOARD_VENDOR_RAMDISK_FRAGMENT.dlkm.KERNEL_MODULE_DIRS := top
 
 # ============================================
 # A/B & Dynamic Partitions
@@ -184,22 +178,13 @@ LC_ALL := C
 # ============================================
 # TWRP Configuration
 # ============================================
-
-# Crypto
 TW_INCLUDE_CRYPTO := true
 TW_INCLUDE_CRYPTO_FBE := true
 TW_INCLUDE_FBE_METADATA_DECRYPT := true
 TW_USE_FSCRYPT_POLICY := 2
-
-# UI & Theme
+			     
+# TWRP specific build flags
 TW_THEME := portrait_hdpi
-TW_BRIGHTNESS_PATH := "/sys/class/backlight/panel0-backlight/brightness"
-TW_MAX_BRIGHTNESS := 2047
-TW_DEFAULT_BRIGHTNESS := 200
-TW_FRAMERATE := 120
-TW_CUSTOM_CLOCK_POS := 60
-
-# Features
 RECOVERY_SDCARD_ON_DATA := true
 TARGET_RECOVERY_QCOM_RTC_FIX := true
 TW_EXCLUDE_DEFAULT_USB_INIT := true
@@ -207,21 +192,69 @@ TW_EXTRA_LANGUAGES := true
 TW_INCLUDE_NTFS_3G := true
 TW_USE_TOOLBOX := true
 TW_INPUT_BLACKLIST := "hbtp_vm"
+TW_BRIGHTNESS_PATH := "/sys/class/backlight/panel0-backlight/brightness"
+TW_MAX_BRIGHTNESS := 2047
+TW_DEFAULT_BRIGHTNESS := 200
 TW_NO_SCREEN_BLANK := true
+TW_EXCLUDE_APEX := true
+TW_HAS_EDL_MODE := false
 TW_INCLUDE_REPACKTOOLS := true
 TW_INCLUDE_RESETPROP := true
 TW_INCLUDE_LIBRESETPROP := true
-TW_NO_CPU_TEMP := true
-TW_BATTERY_SYSFS_WAIT_SECONDS := 3
-TW_BACKUP_EXCLUSIONS := /data/fonts
-TW_INCLUDE_FASTBOOTD := true
-
-# Modules
+TW_FRAMERATE := 120
 TW_LOAD_VENDOR_MODULES := "adsp_loader_dlkm.ko"
-TW_LOAD_VENDOR_BOOT_MODULES := true
+TW_CUSTOM_CPU_TEMP_PATH := "/sys/class/thermal/thermal_zone28/temp"
+TW_BATTERY_SYSFS_WAIT_SECONDS := 5
+TW_BACKUP_EXCLUSIONS := /data/fonts
 
-# Debug
+# StatusBar
+TW_STATUS_ICONS_ALIGN := center
+TW_CUSTOM_CPU_POS := "250"
+TW_CUSTOM_CLOCK_POS := "50"
+TW_CUSTOM_BATTERY_POS := "790"
+
+# Maintainer
+TW_DEVICE_VERSION := Twrp_By_HimelPvz
+OF_MAINTAINER := Himelpvz
+
+# Ofox flags
+FOX_VIRTUAL_AB_DEVICE := 1
+OF_FLASHLIGHT_ENABLE := 0
+OF_IGNORE_LOGICAL_MOUNT_ERRORS := 1
+OF_USE_GREEN_LED := 0
+
+# screen settings
+OF_SCREEN_H := 2400
+OF_STATUS_H := 100
+
+OF_STATUS_INDENT_LEFT := 48
+OF_STATUS_INDENT_RIGHT := 48
+OF_HIDE_NOTCH := 1
+OF_CLOCK_POS := 1
+
+# TWRP Debug Flags
 TWRP_INCLUDE_LOGCAT := true
+TARGET_USES_LOGD := true
 
-# Version
-TW_DEVICE_VERSION := HpsTWRP
+# SHRP flags
+SHRP_PATH := device/xiaomi/stone
+SHRP_MAINTAINER := Himel_Pvz
+SHRP_DEVICE_CODE := stone
+SHRP_EDL_MODE := 0
+SHRP_EXTERNAL := /external_sd
+SHRP_INTERNAL := /sdcard
+SHRP_OTG := /usb_otg
+SHRP_FLASH := 1
+
+SHRP_FLASH_MAX_BRIGHTNESS := 1
+SHRP_REC := /dev/block/bootdevice/by-name/vendor_boot
+SHRP_AB := true
+SHRP_REC_TYPE := Treble
+SHRP_DEVICE_TYPE := A/B
+SHRP_STATUSBAR_RIGHT_PADDING := 40
+SHRP_STATUSBAR_LEFT_PADDING := 40
+SHRP_EXPRESS := true
+SHRP_OFFICIAL := false
+SHRP_DARK := true
+SHRP_ALT_REBOOT := true
+
