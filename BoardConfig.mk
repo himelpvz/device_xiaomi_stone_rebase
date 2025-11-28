@@ -93,24 +93,6 @@ BOARD_KERNEL_CMDLINE := \
     ip6table_raw.raw_before_defrag=1 \
     firmware_class.path=/vendor/firmware
 
-
-VENDOR_CMDLINE := " \
-    androidboot.hardware=qcom \
-    androidboot.memcg=1 \
-    androidboot.selinux=permissive \
-    androidboot.usbcontroller=4e00000.dwc3 \
-    cgroup.memory=nokmem,nosocket \
-    loop.max_part=7 \
-    msm_rtb.filter=0x237 \
-    service_locator.enable=1 \
-    swiotlb=0 \
-    pcie_ports=compat \
-    iptable_raw.raw_before_defrag=1 \
-    ip6table_raw.raw_before_defrag=1 \
-    androidboot.init_fatal_reboot_target=recovery \ "
-
-
-
 # Vendor Boot Cmdline
 BOARD_USES_GENERIC_KERNEL_IMAGE := true
 # Boot Config
