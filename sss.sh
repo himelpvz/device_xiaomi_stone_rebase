@@ -3,11 +3,11 @@ need_repack="$2"
 
 case $device in
 
-    shiba|husky|akita)
+    stone|sunstone|moonstone)
         echo "- Assembly has begun"
     ;;
     *)
-        echo "- The selected device is incorrect, it must be husky, shiba, or akita"
+        echo "- The selected device is incorrect, it must be stone, sunstone, or moonstone"
         exit 222
     ;;
 
