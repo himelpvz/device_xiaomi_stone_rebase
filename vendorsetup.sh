@@ -6,7 +6,6 @@
 # Add your device's build targets to the lunch menu.
 # The 'omni_' prefix is often used for generic TWRP builds.
 # The targets are usually 'eng' (engineering) and 'userdebug'.
-git clone https://github.com/bittencourtjulival/eclipse_kernel_xiaomi_stone -b 16 kernel/xiaomi/stone --depth=1
 
 # Syntax: add_lunch_combo <product_name>-<build_variant>
 add_lunch_combo twrp_stone-eng
