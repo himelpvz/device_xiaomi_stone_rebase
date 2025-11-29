@@ -51,7 +51,7 @@ BOARD_VENDOR := xiaomi
 TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_HEADER_ARCH := arm64
 
-BOARD_BOOT_HEADER_VERSION := 3
+BOARD_BOOT_HEADER_VERSION := 4
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_RAMDISK_OFFSET := 0x01000000
@@ -103,7 +103,7 @@ BOARD_BOOTCONFIG += androidboot.load_modules_parallel=true
 # Recovery - Vendor Boot (CRITICAL SECTION)
 # ============================================
 BOARD_MOVE_RECOVERY_RESOURCES_TO_VENDOR_BOOT := true
-
+BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT := true
 # ============================================
 # A/B & Dynamic Partitions
 # ============================================
