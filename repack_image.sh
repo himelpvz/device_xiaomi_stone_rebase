@@ -8,7 +8,7 @@ device="$(basename $MAIN_PATH)"
 cd $FOX_PATH/out/target/product/$device/
 mkdir repack_boot
 cd repack_boot
-magiskboot unpack ../OrangeFox-R11.3-Unofficial-$device.img
+magiskboot unpack ../OrangeFox-R12.1-Unofficial-by-himelpvz-sunstone-moonstone-$device.img
 if [ -f vendor_ramdisk/recovery.cpio ] ; then
     name_ramdisk=recovery
 else
