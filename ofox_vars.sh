@@ -127,7 +127,7 @@ export OF_DEFAULT_KEYMASTER_VERSION=4.1
 # - If you do not want your specified value to be overridden, then set "TW_FORCE_KEYMASTER_VER=true" in your BoardConfig.mk or device.mk
 # - default = empty
 
-export TARGET_DEVICE_ALT="husky,shiba,shusky"
+export TARGET_DEVICE_ALT="stone,sustone, moonstone"
 # - Use this if the device has more than one code name, so that the OrangeFox zip
 # - installer can support the alternative code name without just bombing out
 # - eg, export TARGET_DEVICE_ALT="kate" (for kenzo/kate)
@@ -135,7 +135,7 @@ export TARGET_DEVICE_ALT="husky,shiba,shusky"
 # -     export TARGET_DEVICE_ALT="blue, green, yellow, orange" (for multiple alt devices)
 # - default = nothing
 
-export FOX_TARGET_DEVICES="husky,shiba,shusky"
+export FOX_TARGET_DEVICES="stone,sunstone,moonstone"
 # - Use this if the device has more than one code name, but ROMs and other zip installers
 # - never check for all code names, therefore always causing "E3004 error 7" problems (eg, raphael/raphaelin)
 # - What this does is to cause OrangeFox to temporarily switch devices names to prevent error 7 from happening
@@ -154,7 +154,7 @@ export FOX_VARIANT=default
 # Необходимость: Полезно для идентификации типа сборки.
 # Перенос в .mk: Рекомендуется перенести в fox_shiba.mk:makefile
 
-export OF_MAINTAINER=LeeGarChat
+export OF_MAINTAINER=HimelPvz
 # OF_MAINTAINER_AVATAR="device/google/shusky/maintainer.png"
 # Назначение: Указывает имя мейнтейнера и (опционально) путь к аватару для отображения в интерфейсе OrangeFox.
 # Необходимость: Опционально, влияет только на UI.
@@ -188,7 +188,7 @@ export FOX_AB_DEVICE=1
 # - set to 1 if your device is an A/B device (** make sure that it really is **)
 # - default = 0
 
-export FOX_RECOVERY_VENDOR_BOOT_PARTITION="/dev/block/platform/13200000.ufs/by-name/vendor_boot"
+export FOX_RECOVERY_VENDOR_BOOT_PARTITION="/dev/block/platform/4804000.ufshc/by-name/vendor_boot"
 # - this is for vendor_boot builds only; it should normally BE LEFT WELL ALONE !!!
 # - set this ONLY if your device's vendor_boot partition is in a location that is
 # 	different from the default "/dev/block/by-name/vendor_boot"
